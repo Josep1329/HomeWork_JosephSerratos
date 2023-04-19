@@ -1,96 +1,148 @@
 #include <iostream>
+#include<cstdlib>
 
 using namespace std;
 
+void RockPaperScissors();
+void replay();
 int main()
 {
-    int a;
-    int b;
-    int c;
-    int resultado = 0;
-    char n[2];
-    int m;
-    int t;
-    int s;
-    int max;
-    int min;
-    int num;
+	int RPS;
 
-    cout << "escriba un numero" << endl;
-    cin >> a;
-    if (a < 0)
-    {
-        cout << "el numero es negativo" << endl;
-    }
-    else {
-        if (a > 0)
-        {
-            cout << "el numero es positivo" << endl;
-        }
-        else
-        {
-            if (a == 0)
-            {
-                cout << "el numero es igual 0" << endl;
-            }
-        }
-    }
+	cout << "Welcome to Rock, Paper, Scissors\n Wish to start?" << endl << "1  Rock, Paper & Scissors" << endl;
+	cin >> RPS;
 
-    cout << "escribe un numero de dos digitos" << endl;
-    cin >> b;
-    while (b != 0) {
-        c = b % 10;
-        b /= 10;
-        resultado += c;
-    }
-    cout << "La suma de los digitos es: " << resultado << endl;
-    cout << "escribe un numero de dos digitos" << endl;
-    cin >> n;
-    if (((n[0] % 2) == 0))
-    {
-        cout << "el digito que es par es " << n[0] << endl;
-    }
-    else {
-        if (((n[1] % 2) == 0))
-        {
-            cout << "el digito que es par es " << n[1] << endl;
-        }
-        else {
-            if (((n[0] % 2) == 0) && ((n[1] % 2) == 0))
-            {
-                cout << "los dos digitos son par " << n[0] << n[1] << endl;
-            }
-            else {
-                cout << "ninguno es par" << endl;
-            }
-        }
-    }
+	switch (RPS)
+	{
+
+	case 1:
+		RockPaperScissors();
+		break;
+	default:
+		break;
+	}
+}
 
 
-    cout << "escribe tres numeros" << endl;
-    cin >> m;
-    cin >> t;
-    cin >> s;
-    if (m > t && m > s)
-    {
-        cout << "el numero mayor es " << m << endl;
-    }
-    else {
-        if (t > m && t > s)
-        {
-            cout << "el numero mayor es " << t << endl;
-        }
-        else {
-            cout << "el numero mayor es " << s << endl;
-        }
-    }
 
-    cout << "escribe el rango mayor y rango menor" << endl;
-    cin >> max;
-    cin >> min;
-    for (num = min; num <= max; num++)
+void RockPaperScissors()
+{
+	int counterPlayer = 0;
+	int counterEnemy = 0;
+	srand(time(NULL));
+	int again = 0;
+	do
+	{
+		do
+		{
+			system("cls");
+			int enemy = (rand() % 3) + 1;
+			int option = 0;
 
-        if (num % 2 == 0)
-            cout << "los numeros pares son " << num << endl;
-    return 0;
+			cout << enemy << endl;
+			if (enemy == 1)
+			{
+				cout << "   The Computer chose rock!" << endl;
+			}
+			else if (enemy == 2)
+			{
+				cout << "   The computer chose paper!" << endl;
+			}
+			else if (enemy == 3)
+			{
+				cout << "   The computer scissors!" << endl;
+			}
+
+			cout << endl;
+
+			cout << "Player: " << counterPlayer << "      " << "CPU: " << counterEnemy << endl;
+			cout << "Choose your option" << endl << "1 - rock" << endl << "2 - paper" << endl << "3 - scissors" << endl;
+			cin >> option;
+
+			switch (option)
+			{
+			case 1:
+				if (option == 1 && enemy == 2)
+				{
+					cout << "You lose" << endl;
+					counterEnemy += 1;
+				}
+				else if (option == enemy)
+				{
+					cout << "You tied" << endl;
+				}
+				else if (option == 1 && enemy == 3)
+				{
+					cout << "You win" << endl;
+					counterPlayer += 1;
+				}
+				break;
+			case 2:
+				if (option == 2 && enemy == 3)
+				{
+					cout << "You lose" << endl;
+					counterEnemy += 1;
+				}
+				else if (option == enemy)
+				{
+					cout << "You tied" << endl;
+				}
+				else if (option == 2 && enemy == 1)
+				{
+					cout << "You win" << endl;
+					counterPlayer += 1;
+				}
+				break;
+			case 3:
+				if (option == 3 && enemy == 1)
+				{
+					cout << "You lose" << endl;
+					counterEnemy += 1;
+				}
+				else if (option == enemy)
+				{
+					cout << "You tied" << endl;
+				}
+				else if (option == 3 && enemy == 2)
+				{
+					cout << "You win" << endl;
+					counterPlayer += 1;
+				}
+				break;
+			default:
+				break;
+			}
+			system("pause");
+		} while (counterEnemy < 2 && counterPlayer < 2);
+		cout << endl << "           Final Score" << endl << "Player: " << counterPlayer << "      " << "CPU: " << counterEnemy << endl;
+		system("pause");
+		system("cls");
+
+		replay();
+	} while (again = !1);
+}
+
+void replay()
+{
+	int again = 0;
+
+	cout << "Do you want to play again?" << endl << "0 - yes" << endl << "1 - no" << endl;
+	cin >> again;
+	if (again == 0)
+	{
+		return RockPaperScissors();
+	}
+	else if (again == 1)
+	{
+		cout << "Thank you for playing!" << endl;
+		return;
+	}
+	else
+	{
+		if (again > 1 || again < 0)
+		{
+			cout << "Invalid option, the program will close" << endl;
+
+		}
+	}
 }
