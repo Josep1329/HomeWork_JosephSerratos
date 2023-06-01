@@ -46,7 +46,6 @@ void loop(char c[3][3])
         else {
 
             Init_J2(c);
-
         }
         j = ganador(c);
 
@@ -211,8 +210,7 @@ Init_J1(char c[3][3]) {
         case '7': 
         {
 
-            i = 2;
-
+            i = 2
             j = 0;
 
             if (c[i][j] == 'X' || c[i][j] == 'O') { 
