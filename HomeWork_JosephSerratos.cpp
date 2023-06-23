@@ -1,485 +1,238 @@
-#include <cstdio>
-#include <stdlib.h>
-#include <iostream>
-#include <stdio.h>
+﻿#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cstdlib>
+#include <clocale>
 
 using namespace std;
+void instrucciones();
+void showboard(const vector<char>& board);
+char AskYesNo(string question);
+char humansymbol();
+char opponent(char player);
+char winner(vector<char> board);
+int PlayerMove(const vector<char>& board);
+int askNumber(string question, int high, int low);
+bool isLegal(int move, const vector<char>& board);
 
-void loop(char c[3][3]);
-void Primera_Intro(char c[3][3]);
-void Primera_Intro(char c[3][3]);
-void tablero(char c[3][3]);
-void Init_J1(char c[3][3]);
-void Init_J2(char c[3][3]);
-int ganador(char c[3][3]);
+const char EMPTY = ' '; 
+const char  X = 'X';
+const char  O = 'O';
+const char NO_ONE = 'N';
+const char TIE = 'T';
 
-int main() 
+int main()
+
 {
 
-    char c[3][3];
-    loop(c);
+	setlocale(LC_ALL, "spanish");
+	char validation;
+	char player = humansymbol(); 
+	char computer = opponent(player); 
+	char turn = X; 
 
-    return 0;
+
+	const int NUM_SQUARES = 9;
+	vector<char> board(NUM_SQUARES, EMPTY);
+
+
+	instrucciones();
+
+
+
+	while (winner(board) == NO_ONE)
+	{
+		int moved = PlayerMove(board);
+		board[moved] = player;
+		showboard(board);
+	}
 
 }
 
-void loop(char c[3][3]) 
+
+
+void instrucciones()
+
 {
 
+	cout << "\nBienvenido: \n";
+	cout << "\nElige una posicion entre el 0 y el 8.\n\n";
+	cout << "|0|1|2|\n";
+	cout << "|3|4|5|\n";
+	cout << "|6|7|8|\n";
 
-    int i, j;
-    i = 0;
-
-    Primera_Intro(c);
-    tablero(c);
-
-    do {
-
-        system("clear");
-        tablero(c);
-
-        if (i % 2 == 0) {
-
-            Init_J1(c);
-
-        }
-        else {
-
-            Init_J2(c);
-        }
-        j = ganador(c);
-
-        i++;
-
-    } while (i < 9);
-
-    if (j == 0) 
-    {
-
-        cout << "Ha ganado el jugador 1.";
-
-    }
-    else if (j == 1) {
-
-        cout << "Ha ganado el juagdor 2.";
-
-    }
-    else {
-
-        cout << "Empate.";
-
-    }
-
+	cout << "\nQue comience la batalla!\n";
 }
 
-void Primera_Intro(char c[3][3])
+
+char AskYesNo(string question)
 {
 
-    char a;
-    a = '1';
+	char answer;
 
-    for (int i = 0; i < 3; i++) {
+	do
+	{
+		cout << "\n" << question << "(y/n)";
+		cin >> answer;
 
-        for (int j = 0; j < 3; j++) {
+	} while (answer != 'y' && answer != 'n');
 
-            c[i][j] = a++;
+	return answer;
 
-        }
-    }
-}
 
-
-void
-Init_J1(char c[3][3]) {
-
-    char a;
-    int i, j, k;
-
-    do {
-
-        do {
-
-            cout << "Juega jugador 1: "; 
-
-            scanf_s(" %c", &a); 
-        } while (a < '1' || a > '9');
-
-        k = 0;
-
-        switch (a) 
-        { 
-        case '1': 
-        {
-
-            i = 0;
-            j = 0;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '2': 
-        {
-
-            i = 0;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') 
-            { 
-
-                k = 1;
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '3': 
-        {
-            i = 0;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '4': 
-        {
-            i = 1;
-            j = 0;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-            break;
-
-        }
-
-        case '5': 
-        {
-            i = 1;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "\"Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '6': 
-        {
-
-            i = 1;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '7': 
-        {
-
-            i = 2
-            j = 0;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '8': 
-        {
-            i = 2;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '9': 
-        {
-
-            i = 2;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        }
-
-    } while (k == 1); 
-    c[i][j] = 'X';
 
 }
 
-
-void Init_J2(char c[3][3])
+char humansymbol() 
 {
 
-
-    char a;
-    int i, j, k;
-
-    do {
-
-        do 
-        {
-
-            cout << ("Juega jugador 2: "); 
-            scanf_s(" %c", &a);
-        } while (a < '1' || a > '9');
-
-        k = 0;
-
-        switch (a) { 
-        case '1': {
-
-            i = 0;
-            j = 0;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') { 
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '2': 
-        {
-
-            i = 0;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '3': 
-        {
-
-            i = 0;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '4': 
-        {
-            i = 1;
-            j = 0;
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '5': 
-        {
-            i = 1;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '6': 
-        {
-            i = 1;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '7': 
-        {
-            i = 2;
-            j = 0;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '8': 
-        {
-            i = 2;
-            j = 1;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        case '9': 
-        {
-            i = 2;
-            j = 2;
-
-            if (c[i][j] == 'X' || c[i][j] == 'O') {
-
-                k = 1;
-
-                cout << "Casilla ocupada. Intentalo de nuevo.";
-
-            }
-
-            break;
-
-        }
-
-        }
-
-    } while (k == 1);
-
-    c[i][j] = 'O';
+	char gofirst = AskYesNo("Deseas comenzar la partida?");
+
+	if (gofirst == 'y')
+	{
+		return X;
+	}
+
+	else
+	{
+		return O;
+	}
 
 }
 
-int ganador(char c[3][3])
-{
-    return 0;
-}
-
-
-void tablero(char c[3][3])
+char opponent(char player)
 {
 
-    for (int i = 0; i < 3; i++) {
+	if (player == X)
 
-        for (int j = 0; j < 3; j++) {
+	{
+		return O;
 
-            if (j < 2) {
+	}
 
-                printf(" %c ", c[i][j]);
+	else
+	{
+		return X;
+	}
+}
 
-            }
-            else {
 
-                printf(" %c ", c[i][j]);
 
-            }
+char winner(vector<char> board)
+{
+	
+	const int WINNING_POS[8][3] = { {0, 1, 2},
+									{3, 4, 5},
+									{6, 7, 8},
+									{0, 3, 6},
+									{1, 4, 7},
+									{2, 5, 8},
+									{2, 4, 6},
+									{0, 4, 8}, };
 
-        }
+	const int TOTAL_ROWS = 8;
 
-        if (i < 2) {
+	
 
-            cout << "\n---------\n";
+	for (int row = 0; row < TOTAL_ROWS; row++)
+	{
 
-        }
+		if ((board[WINNING_POS[row][0]] != EMPTY) && 
+			(board[WINNING_POS[row][0]] == board[WINNING_POS[row][1]]) && 
+			(board[WINNING_POS[row][1]] == board[WINNING_POS[row][2]])) 
+		{
+			return board[WINNING_POS[row][0]];
 
-    }
+		}
+	}
 
-    cout << "\n\n";
+
+
+	if (count(board.begin(), board.end(), EMPTY) == 0) 
+	{
+		return TIE;
+	}
+
+	
+
+	return NO_ONE;
 
 }
 
+int PlayerMove(const vector<char>& board)
+{
+
+	int num;
+	do {
+		num = askNumber("Elige un espacio", 8, 0);
+		isLegal(num, board);
+		if (!isLegal(num, board))
+		{
+			cout << "casilla ya usada, escoge otra" << endl;
+		}
+	} while (!isLegal(num, board));
+	return num;
+}
+
+int askNumber(string question, int high, int low)
+{
+	string input;
+	bool isValid = false;
+	bool isRangeValid = false;
+	int number = 0;
+
+	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	do {
+		cout << question << "entre " << low << " y " << high << endl;
+
+		getline(cin, input);
+
+		for (char c : input)
+		{
+			if (!isdigit(c))
+			{
+				isValid = false;
+				break;
+			}
+			else
+			{
+				isValid = true;
+				break;
+			}
+		}
+
+		if (!isValid)
+		{
+			cout << "\nEntrada inv�lida, por favor elige solo n�meros.\n";
+		}
+		else
+		{
+			number = stoi(input);
+			isRangeValid = number <= high && number >= low;
+		}
+
+		if (!isRangeValid && isValid)
+		{
+			cout << "\nEntrada inv�lida, elige un n�mero dentro del rango establecido.\n";
+		}
+
+	} while (!isValid || input.empty() || !isRangeValid);
+
+	return number;
+}
+
+
+bool isLegal(int move, const vector<char>& board)
+{
+	return board[move] == EMPTY;
+
+}
+
+void showboard(const vector<char>& board)
+{
+	cout << board[0] << board[1] << board[2] << endl;
+	cout << board[3] << board[4] << board[5] << endl;
+	cout << board[6] << board[7] << board[8] << endl;
+}
